@@ -1,0 +1,8 @@
+.gradle
+.idea
+build
+gradle
+out
+PlagiarismCodeFinder.iml
+gradlew.bat
+gradlew

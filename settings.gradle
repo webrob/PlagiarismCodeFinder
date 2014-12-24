@@ -1,0 +1,10 @@
+rootProject.name = 'PlagiarismCodeFinder'
+
+def String[] modules = [
+        'core-shared',
+        'JavaFX-view'
+]
+
+include modules
+
+
