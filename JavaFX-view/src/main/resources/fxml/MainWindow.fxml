@@ -11,8 +11,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#chooseFirstFilePressed" text="Choose first file" />
-                  <MenuItem mnemonicParsing="false" onAction="#chooseSecondFilePressed" text="Choose second file" />
+              <MenuItem mnemonicParsing="false" onAction="#chooseDirectoryPressed" text="Choose directory" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Operation">
