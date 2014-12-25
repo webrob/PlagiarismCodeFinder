@@ -3,14 +3,12 @@ package com.webrob.plagiarism;
 import com.webrob.plagiarism.controller.Controller;
 import com.webrob.plagiarism.controller.ControllerEmpty;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -34,18 +32,21 @@ public class MainWindowController implements Initializable
     public void setStage(Stage stage)
     {
 	this.stage = stage;
+	stage.setOnCloseRequest(event -> {
+	    Platform.exit();
+	    System.exit(0);
+	});
     }
 
     @Override public void initialize(URL location, ResourceBundle resources)
     {
     }
 
-
     private String selectFilePathFromFileChooser()
     {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Choose folder with source code");
-        File selectedDirectory = chooser.showDialog(stage);
+	DirectoryChooser chooser = new DirectoryChooser();
+	chooser.setTitle("Choose folder with source code");
+	File selectedDirectory = chooser.showDialog(stage);
 	if (selectedDirectory != null)
 	{
 	    directoryPath = selectedDirectory.getAbsolutePath();
@@ -56,14 +57,14 @@ public class MainWindowController implements Initializable
     @FXML
     private void chooseDirectoryPressed()
     {
-        directoryPath = selectFilePathFromFileChooser();
-        System.out.println(directoryPath);
+	directoryPath = selectFilePathFromFileChooser();
+	System.out.println(directoryPath);
     }
 
     @FXML
     private void startDetectionPressed()
     {
-        directoryPath = "C:\\Users\\Robert\\IdeaProjects\\PlagiatDetectorTest\\src\\testFiles";
+	directoryPath = "C:\\Users\\Robert\\IdeaProjects\\PlagiatDetectorTest\\src\\testFiles";
 
 	controller.setDirectoryPath(directoryPath);
 	controller.findPlagiarism();
@@ -78,7 +79,6 @@ public class MainWindowController implements Initializable
     {
 	Platform.runLater(() -> firstFileTextArea.setText(text));
     }
-
 
 }
 
