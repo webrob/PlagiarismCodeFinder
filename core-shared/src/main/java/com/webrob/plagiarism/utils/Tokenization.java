@@ -30,8 +30,6 @@ public class Tokenization
 	String simpleText = getTokenizedText();
 	String[] simpleLines = splitToSimpleLines(simpleText);
 
-	System.out.println(simpleText);
-
 	int position = 0;
 	for (int i = 0; i < originalLines.length; i++)
 	{

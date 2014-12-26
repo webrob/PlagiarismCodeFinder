@@ -1,11 +1,13 @@
 package com.webrob.plagiarism.model;
 
+import com.webrob.plagiarism.domain.PlagiarismChain;
 import com.webrob.plagiarism.domain.TokenizedLine;
 import com.webrob.plagiarism.utils.DirectoryHelper;
 import com.webrob.plagiarism.utils.Tokenization;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
@@ -14,13 +16,14 @@ import java.util.concurrent.BlockingQueue;
  */
 public class Plagiarism extends AbstractModel implements Runnable
 {
+    private List<PlagiarismChain> plagiarismChains = new ArrayList<>();
     private BlockingQueue<AbstractMessage> messageQueue;
     private String directoryPath;
-    private int globalLinesCount;
 
     @Override
     public void calculate()
     {
+	plagiarismChains.clear();
 	DirectoryHelper directoryHelper = new DirectoryHelper(directoryPath);
 	List<File> filesFromDirectory = directoryHelper.getFilesFromDirectory();
 
@@ -33,14 +36,13 @@ public class Plagiarism extends AbstractModel implements Runnable
 	    {
 		Tokenization tokenization1 = new Tokenization(file1);
 		List<TokenizedLine> tokenizedLines1 = tokenization1.getTokenizedLines();
-		globalLinesCount += tokenizedLines1.size();
 
 		for (int j = i + 1; j < size; j++)
 		{
 		    File file2 = filesFromDirectory.get(j);
 		    Tokenization tokenization2 = new Tokenization(file2);
 		    List<TokenizedLine> tokenizedLines2 = tokenization2.getTokenizedLines();
-		    compute(tokenizedLines1, tokenizedLines2);
+		    findPlagiarism(tokenizedLines1, tokenizedLines2);
 		}
 		i++;
 	    }
@@ -53,9 +55,10 @@ public class Plagiarism extends AbstractModel implements Runnable
 	firePropertyChange(PropertyNames.PLAGIARISM_FOUND, "");
     }
 
-    private void compute(List<TokenizedLine> tokenizedLines1, List<TokenizedLine> tokenizedLines2)
+    private void findPlagiarism(List<TokenizedLine> tokenizedLines1, List<TokenizedLine> tokenizedLines2)
     {
-
+	PlagiarismFinder finder = new PlagiarismFinder(tokenizedLines1, tokenizedLines2);
+	finder.calculatePlagiarismChains(plagiarismChains);
     }
 
     @Override public void setFilePaths(String directoryPath)

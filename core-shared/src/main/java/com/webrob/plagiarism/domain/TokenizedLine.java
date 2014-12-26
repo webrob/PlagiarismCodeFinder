@@ -7,7 +7,7 @@ import java.io.File;
  */
 public class TokenizedLine
 {
-    public static final int MIN_VALID_LINE_LENGHT = 3;
+    public static final int MIN_VALID_LINE_LENGTH = 3;
     private final String realLine;
     private final int cleanLineHash;
     private final File file;
@@ -23,7 +23,7 @@ public class TokenizedLine
 	this.startChar = start;
 	this.endChar = end;
 	this.lineInFile = lineInFile;
-	this.valid = cleanLine.length() > MIN_VALID_LINE_LENGHT;
+	this.valid = cleanLine.length() > MIN_VALID_LINE_LENGTH;
 	this.cleanLineHash = cleanLine.hashCode();
     }
 
