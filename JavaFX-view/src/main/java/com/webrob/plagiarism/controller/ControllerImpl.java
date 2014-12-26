@@ -1,10 +1,17 @@
 package com.webrob.plagiarism.controller;
 
 import com.webrob.plagiarism.MainWindowController;
+import com.webrob.plagiarism.domain.PlagiarismDetails;
+import com.webrob.plagiarism.domain.RowSummary;
+import com.webrob.plagiarism.messages.AbstractMessage;
+import com.webrob.plagiarism.messages.FindPlagiarismMessage;
+import com.webrob.plagiarism.messages.SelectedPlagiarismMessage;
+import com.webrob.plagiarism.messages.SetFilePathsMessage;
 import com.webrob.plagiarism.model.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 
@@ -36,13 +43,20 @@ public class ControllerImpl implements Controller, PropertyChangeListener
 
     public void findPlagiarism()
     {
-	sendMessage(new FindPlagiarismMessage());
+        FindPlagiarismMessage message = new FindPlagiarismMessage();
+        sendMessage(message);
     }
 
     @Override public void setDirectoryPath(String directoryPath)
     {
-        SetFilePathsMessage setFilePathsMessage = new SetFilePathsMessage(directoryPath);
-        sendMessage(setFilePathsMessage);
+        SetFilePathsMessage message = new SetFilePathsMessage(directoryPath);
+        sendMessage(message);
+    }
+
+    @Override public void getPlagiarismDetails(int selectedIndex)
+    {
+        SelectedPlagiarismMessage message = new SelectedPlagiarismMessage(selectedIndex);
+        sendMessage(message);
     }
 
     @Override
@@ -51,12 +65,18 @@ public class ControllerImpl implements Controller, PropertyChangeListener
         String propertyName = evt.getPropertyName();
         switch (propertyName)
 	{
-	    case PropertyNames.PLAGIARISM_FOUND:
+	    case PropertyNames.PLAGIARISM_SUMMARY:
 	    {
-                String a = (String) evt.getNewValue();
-                viewController.setFirstFileText(a);
+                List< RowSummary > rowsSummary = (List<RowSummary>)evt.getNewValue();
+                viewController.setPlagiarismsToTableView(rowsSummary);
 		break;
 	    }
+            case PropertyNames.PLAGIARISM_DETAILS:
+            {
+                PlagiarismDetails plagiarismDetails = (PlagiarismDetails) evt.getNewValue();
+                viewController.setPlagiarismDetails(plagiarismDetails);
+                break;
+            }
 	}
     }
 }

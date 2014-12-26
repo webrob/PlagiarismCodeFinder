@@ -15,4 +15,6 @@ public interface Controller
     void findPlagiarism();
 
     void setDirectoryPath(String directoryPath);
+
+    void getPlagiarismDetails(int selectedIndex);
 }

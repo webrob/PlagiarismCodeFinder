@@ -27,4 +27,9 @@ public class ControllerEmpty implements Controller
     {
 
     }
+
+    @Override public void getPlagiarismDetails(int selectedIndex)
+    {
+
+    }
 }

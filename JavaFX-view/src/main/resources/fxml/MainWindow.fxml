@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -25,14 +26,14 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextArea fx:id="firstFileTextArea" editable="false" layoutY="175.0" prefHeight="587.0" prefWidth="601.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="700.0" AnchorPane.topAnchor="180.0" />
-            <TextArea fx:id="secondFileTextArea" editable="false" layoutX="614.0" layoutY="296.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="660.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="180.0" />
-            <TableView fx:id="filesTableView" layoutX="8.0" layoutY="7.0" prefHeight="200.0" prefWidth="780.0" AnchorPane.bottomAnchor="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <TableView fx:id="filesTableView" layoutX="8.0" layoutY="7.0" onMouseClicked="#tableRowClicked" prefHeight="200.0" prefWidth="780.0" AnchorPane.bottomAnchor="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columns>
                 <TableColumn fx:id="firstFileTableColumn" prefWidth="75.0" text="First file" />
                 <TableColumn fx:id="secondFileTableColumn" prefWidth="75.0" text="Second file" />
               </columns>
             </TableView>
+            <TextFlow fx:id="secondFileTextFlow" layoutX="706.0" layoutY="180.0" prefHeight="582.0" prefWidth="619.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="180.0" />
+            <TextFlow fx:id="firstFileTextFlow" layoutX="14.0" layoutY="186.0" prefHeight="570.0" prefWidth="674.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="180.0" />
          </children>
       </AnchorPane>
    </center>
