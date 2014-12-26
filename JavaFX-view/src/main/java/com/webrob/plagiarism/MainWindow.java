@@ -31,7 +31,9 @@ public class MainWindow extends Application
 	controller.setViewController(mainWindowController);
 	controller.setModel(plagiarism);
 
-	new Thread(plagiarism).start();
+	Thread thread = new Thread(plagiarism);
+	thread.setDaemon(true);
+	thread.start();
 
 	Scene scene = new Scene(root);
 	stage.setScene(scene);

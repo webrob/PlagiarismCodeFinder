@@ -32,10 +32,6 @@ public class MainWindowController implements Initializable
     public void setStage(Stage stage)
     {
 	this.stage = stage;
-	stage.setOnCloseRequest(event -> {
-	    Platform.exit();
-	    System.exit(0);
-	});
     }
 
     @Override public void initialize(URL location, ResourceBundle resources)
