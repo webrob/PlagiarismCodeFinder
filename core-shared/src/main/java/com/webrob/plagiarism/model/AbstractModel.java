@@ -26,6 +26,8 @@ public abstract class AbstractModel
     public abstract void calculate();
 
     public abstract void setFilePaths(String directoryPath);
+
+    public abstract void fireSourceFiles(int selectedIndex);
 }
     
 

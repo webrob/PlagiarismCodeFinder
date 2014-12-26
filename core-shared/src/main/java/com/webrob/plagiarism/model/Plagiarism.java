@@ -1,7 +1,7 @@
 package com.webrob.plagiarism.model;
 
-import com.webrob.plagiarism.domain.PlagiarismChain;
-import com.webrob.plagiarism.domain.TokenizedLine;
+import com.webrob.plagiarism.domain.*;
+import com.webrob.plagiarism.messages.AbstractMessage;
 import com.webrob.plagiarism.utils.DirectoryHelper;
 import com.webrob.plagiarism.utils.Tokenization;
 
@@ -52,7 +52,10 @@ public class Plagiarism extends AbstractModel implements Runnable
 	    e.printStackTrace();
 	}
 
-	firePropertyChange(PropertyNames.PLAGIARISM_FOUND, "");
+	PlagiarismSummary summaryForTable = new PlagiarismSummary(plagiarismChains);
+	List<RowSummary> rowsSummary = summaryForTable.getRowsSummary();
+
+	firePropertyChange(PropertyNames.PLAGIARISM_SUMMARY, rowsSummary);
     }
 
     private void findPlagiarism(List<TokenizedLine> tokenizedLines1, List<TokenizedLine> tokenizedLines2)
@@ -64,6 +67,14 @@ public class Plagiarism extends AbstractModel implements Runnable
     @Override public void setFilePaths(String directoryPath)
     {
 	this.directoryPath = directoryPath;
+    }
+
+    @Override public void fireSourceFiles(int selectedIndex)
+    {
+	PlagiarismChain plagiarismChain = plagiarismChains.get(selectedIndex);
+	PlagiarismDetails plagiarismDetails = new PlagiarismDetails(plagiarismChain);
+
+	firePropertyChange(PropertyNames.PLAGIARISM_DETAILS, plagiarismDetails);
     }
 
     public void setMessageQueue(BlockingQueue<AbstractMessage> messageQueue)

@@ -5,5 +5,6 @@ package com.webrob.plagiarism.model;
  */
 public class PropertyNames
 {
-    public static final String PLAGIARISM_FOUND = "plagiarismFound";
+    public static final String PLAGIARISM_SUMMARY = "plagiarismSummary";
+    public static final String PLAGIARISM_DETAILS = "plagiarismDetails";
 }

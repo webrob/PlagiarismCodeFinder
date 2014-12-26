@@ -1,4 +1,6 @@
-package com.webrob.plagiarism.model;
+package com.webrob.plagiarism.messages;
+
+import com.webrob.plagiarism.model.AbstractModel;
 
 /**
  * Created by Robert on 2014-12-25.
