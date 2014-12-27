@@ -37,7 +37,7 @@ public class Tokenization
 	    TokenizedLine tokenizedLine = new TokenizedLine(originalLines[i], simpleLines[i], file, position,
 			    position + lineLength, i + 1);
 	    tokenizedLines.add(tokenizedLine);
-	    position += lineLength + 1;
+	    position += lineLength + 2;
 	}
 
 	return tokenizedLines;

@@ -17,4 +17,8 @@ public interface Controller
     void setDirectoryPath(String directoryPath);
 
     void getPlagiarismDetails(int selectedIndex);
+
+    void setMaxLineGapValue(int value);
+
+    void setMinChainLengthValue(int value);
 }

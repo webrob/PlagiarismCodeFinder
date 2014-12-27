@@ -1,8 +1,9 @@
 package com.webrob.plagiarism.model;
 
 import com.webrob.plagiarism.domain.*;
-import com.webrob.plagiarism.messages.AbstractMessage;
+import com.webrob.plagiarism.messages.Message;
 import com.webrob.plagiarism.utils.DirectoryHelper;
+import com.webrob.plagiarism.utils.Settings;
 import com.webrob.plagiarism.utils.Tokenization;
 
 import java.io.File;
@@ -14,10 +15,10 @@ import java.util.concurrent.BlockingQueue;
 /**
  * Created by Robert on 2014-12-24.
  */
-public class Plagiarism extends AbstractModel implements Runnable
+public class Plagiarism extends Model implements Runnable
 {
     private List<PlagiarismChain> plagiarismChains = new ArrayList<>();
-    private BlockingQueue<AbstractMessage> messageQueue;
+    private BlockingQueue<Message> messageQueue;
     private String directoryPath;
 
     @Override
@@ -64,12 +65,14 @@ public class Plagiarism extends AbstractModel implements Runnable
 	finder.calculatePlagiarismChains(plagiarismChains);
     }
 
-    @Override public void setFilePaths(String directoryPath)
+    @Override
+    public void setFilePaths(String directoryPath)
     {
 	this.directoryPath = directoryPath;
     }
 
-    @Override public void fireSourceFiles(int selectedIndex)
+    @Override
+    public void fireSourceFiles(int selectedIndex)
     {
 	PlagiarismChain plagiarismChain = plagiarismChains.get(selectedIndex);
 	PlagiarismDetails plagiarismDetails = new PlagiarismDetails(plagiarismChain);
@@ -77,7 +80,18 @@ public class Plagiarism extends AbstractModel implements Runnable
 	firePropertyChange(PropertyNames.PLAGIARISM_DETAILS, plagiarismDetails);
     }
 
-    public void setMessageQueue(BlockingQueue<AbstractMessage> messageQueue)
+    @Override
+    public void setMaxLineGapValue(int value)
+    {
+	Settings.maxLineBias = value;
+    }
+
+    @Override public void setMinChainLengthValue(int value)
+    {
+	Settings.minChainLength = value;
+    }
+
+    public void setMessageQueue(BlockingQueue<Message> messageQueue)
     {
 	this.messageQueue = messageQueue;
     }
@@ -88,7 +102,7 @@ public class Plagiarism extends AbstractModel implements Runnable
 	{
 	    try
 	    {
-		AbstractMessage message = messageQueue.take();
+		Message message = messageQueue.take();
 		message.process(this);
 	    }
 	    catch (InterruptedException e)

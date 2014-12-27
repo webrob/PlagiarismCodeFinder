@@ -5,12 +5,16 @@ import com.webrob.plagiarism.controller.ControllerEmpty;
 import com.webrob.plagiarism.domain.PlagiarismDataForTableView;
 import com.webrob.plagiarism.domain.PlagiarismDetails;
 import com.webrob.plagiarism.domain.RowSummary;
+import com.webrob.plagiarism.utils.DirectoryPath;
+import com.webrob.plagiarism.utils.Settings;
 import com.webrob.plagiarism.view.TableViewManager;
 import com.webrob.plagiarism.view.TextFlowManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.text.TextFlow;
@@ -27,6 +31,11 @@ import java.util.ResourceBundle;
  */
 public class MainWindowController implements Initializable
 {
+    @FXML private Label directoryPathLabel;
+    @FXML private Label minChainLengthLabel;
+    @FXML private ScrollBar minChainLengthScrollBar;
+    @FXML private Label maxLineGapLabel;
+    @FXML private ScrollBar maxLineGapsScrollBar;
     @FXML private TextFlow secondFileTextFlow;
     @FXML private TextFlow firstFileTextFlow;
     @FXML private TableView<PlagiarismDataForTableView> filesTableView;
@@ -46,6 +55,7 @@ public class MainWindowController implements Initializable
 
     @Override public void initialize(URL location, ResourceBundle resources)
     {
+
 	firstFileTableColumn.setCellValueFactory(cellData -> cellData.getValue().firstFileProperty());
 	secondFileTableColumn.setCellValueFactory(cellData -> cellData.getValue().secondFileProperty());
 
@@ -63,16 +73,62 @@ public class MainWindowController implements Initializable
 			    }
 			});
 
+	updateDirectoryPathLabel();
+
+	minChainLengthScrollBar.setValue(Settings.minChainLength);
+	setMinChainLengthLabel(Settings.minChainLength);
+
+	minChainLengthScrollBar.valueProperty().addListener((observable, oldValue, newValue) ->
+	{
+	    int i = newValue.intValue();
+	    setMinChainLengthLabel(i);
+            controller.setMinChainLengthValue(i);
+	});
+
+	maxLineGapsScrollBar.setValue(Settings.maxLineBias);
+	setMaxLineGapLabel(Settings.maxLineBias);
+
+	maxLineGapsScrollBar.valueProperty().addListener((observable, oldValue, newValue) ->
+	{
+	    int i = newValue.intValue();
+	    setMaxLineGapLabel(i);
+            controller.setMaxLineGapValue(i);
+	});
+    }
+
+    private void setMinChainLengthLabel(int value)
+    {
+	setLabelValue(minChainLengthLabel, value);
+    }
+
+    private void setMaxLineGapLabel(int value)
+    {
+	setLabelValue(maxLineGapLabel, value);
+    }
+
+    private void setLabelValue(Label label, int value)
+    {
+	String s = String.valueOf(value);
+	label.setText(s);
+    }
+
+    private void updateDirectoryPathLabel()
+    {
+	directoryPath = DirectoryPath.getPath();
+	directoryPathLabel.setText(DirectoryPath.getPath());
     }
 
     private String selectFilePathFromFileChooser()
     {
 	DirectoryChooser chooser = new DirectoryChooser();
 	chooser.setTitle("Choose folder with source code");
+	chooser.setInitialDirectory(new File(DirectoryPath.getPath()));
 	File selectedDirectory = chooser.showDialog(stage);
 	if (selectedDirectory != null)
 	{
 	    directoryPath = selectedDirectory.getAbsolutePath();
+	    DirectoryPath.setPath(directoryPath);
+	    updateDirectoryPathLabel();
 	}
 	return directoryPath;
     }
@@ -87,12 +143,8 @@ public class MainWindowController implements Initializable
     @FXML
     private void startDetectionPressed()
     {
-	directoryPath = "C:\\Users\\Robert\\IdeaProjects\\PlagiatDetectorTest\\src";
-	if (directoryPath != null)
-	{
-	    controller.setDirectoryPath(directoryPath);
-	    controller.findPlagiarism();
-	}
+	controller.setDirectoryPath(directoryPath);
+	controller.findPlagiarism();
     }
 
     public void setController(Controller controller)
@@ -105,18 +157,6 @@ public class MainWindowController implements Initializable
 	tableViewManager.setDataForTableView(rowsSummary);
     }
 
-    public void tableRowClicked()
-    {
-	/*
-	TableView.TableViewSelectionModel selectionModel = filesTableView.getSelectionModel();
-        if (selectionModel.getSelectedItem() != null)
-        {
-            int selectedIndex = selectionModel.getSelectedIndex();
-            System.out.println(selectedIndex);
-        }
-        */
-
-    }
 
     public void setPlagiarismDetails(PlagiarismDetails plagiarismDetails)
     {

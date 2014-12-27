@@ -32,4 +32,14 @@ public class ControllerEmpty implements Controller
     {
 
     }
+
+    @Override public void setMaxLineGapValue(int value)
+    {
+
+    }
+
+    @Override public void setMinChainLengthValue(int value)
+    {
+
+    }
 }

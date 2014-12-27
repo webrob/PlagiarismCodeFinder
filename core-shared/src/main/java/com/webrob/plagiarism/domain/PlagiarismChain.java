@@ -1,5 +1,7 @@
 package com.webrob.plagiarism.domain;
 
+import com.webrob.plagiarism.utils.Settings;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +43,7 @@ public class PlagiarismChain
 
     public boolean isLongEnough()
     {
-	return length() >= 3;//Settings.minChainLength;
+	return length() >= Settings.minChainLength;
     }
 
     public int length()
@@ -69,7 +71,7 @@ public class PlagiarismChain
 
 	public String toString()
 	{
-	    return file.getName() + " " + startLineInFile + "-" + endLineInFile;
+	    return file.getName() + " (" + startLineInFile + "-" + endLineInFile +")";
 	}
     }
 }

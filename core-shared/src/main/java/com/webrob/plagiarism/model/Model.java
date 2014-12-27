@@ -3,11 +3,11 @@ package com.webrob.plagiarism.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public abstract class AbstractModel
+public abstract class Model
 {
     protected PropertyChangeSupport propertyChangeSupport;
 
-    public AbstractModel() {
+    public Model() {
         propertyChangeSupport = new PropertyChangeSupport(this);
     }
     
@@ -28,6 +28,10 @@ public abstract class AbstractModel
     public abstract void setFilePaths(String directoryPath);
 
     public abstract void fireSourceFiles(int selectedIndex);
+
+    public abstract void setMaxLineGapValue(int value);
+
+    public abstract void setMinChainLengthValue(int value);
 }
     
 

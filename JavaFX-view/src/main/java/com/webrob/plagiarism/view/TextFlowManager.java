@@ -2,6 +2,8 @@ package com.webrob.plagiarism.view;
 
 import com.webrob.plagiarism.domain.PlagiarismDetails;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -12,30 +14,56 @@ public class TextFlowManager
 {
     private final TextFlow secondFileTextFlow;
     private final TextFlow firstFileTextFlow;
+    private PlagiarismDetails plagiarismDetails;
 
-    public TextFlowManager(TextFlow secondFileTextFlow, TextFlow firstFileTextFlow)
+    public TextFlowManager(TextFlow firstFileTextFlow, TextFlow secondFileTextFlow)
     {
-        this.secondFileTextFlow = secondFileTextFlow;
-        this.firstFileTextFlow = firstFileTextFlow;
+	this.firstFileTextFlow = firstFileTextFlow;
+	this.secondFileTextFlow = secondFileTextFlow;
     }
-
 
     public void setPlagiarismDetailsToTextFlows(PlagiarismDetails plagiarismDetails)
     {
+	this.plagiarismDetails = plagiarismDetails;
 
-        String firstFileText = plagiarismDetails.getFirstFileText();
-        Text text1 = new Text(firstFileText);
-        //Text text2 = new Text("Some Text");
-        // text2.setStyle("-fx-font-weight: bold");
-        Platform.runLater(() -> firstFileTextFlow.getChildren().setAll(text1));
+	String firstFileText = plagiarismDetails.getFirstFileText();
 
+	System.out.println(firstFileText.substring(plagiarismDetails.getFirstFileStartPlagiarismChar(),
+			plagiarismDetails.getFirstFileEndPlagiarismChar()));
 
-        String secondFileText = plagiarismDetails.getSecondFileText();
-        Text text2 = new Text(secondFileText);
-        //Text text2 = new Text("Some Text");
-        // text2.setStyle("-fx-font-weight: bold");
-        Platform.runLater(() -> secondFileTextFlow.getChildren().setAll(text2));
+	Text text1 = new Text(firstFileText.substring(0, plagiarismDetails.getFirstFileStartPlagiarismChar()));
+	Text text2 = new Text(firstFileText.substring(plagiarismDetails.getFirstFileStartPlagiarismChar(),
+			plagiarismDetails.getFirstFileEndPlagiarismChar()));
+	text2.setStyle("-fx-font-weight: bold; -fx-font-size: 20");
+	Text text3 = new Text(firstFileText.substring(plagiarismDetails.getFirstFileEndPlagiarismChar()));
 
+	Platform.runLater(() ->
+	{
+	    ObservableList<Node> children = firstFileTextFlow.getChildren();
+	    children.clear();
+	    children.setAll(text1, text2, text3);
+	});
+
+	setSecondFileTextFlow();
+
+    }
+
+    private void setSecondFileTextFlow()
+    {
+	String secondFile = plagiarismDetails.getSecondFileText();
+
+	Text text1 = new Text(secondFile.substring(0, plagiarismDetails.getSecondFileStartPlagiarismChar()));
+	Text text2 = new Text(secondFile.substring(plagiarismDetails.getSecondFileStartPlagiarismChar(),
+			plagiarismDetails.getSecondFileEndPlagiarismChar()));
+	text2.setStyle("-fx-font-weight: bold; -fx-font-size: 20");
+	Text text3 = new Text(secondFile.substring(plagiarismDetails.getSecondFileEndPlagiarismChar()));
+
+	Platform.runLater(() ->
+	{
+	    ObservableList<Node> children = secondFileTextFlow.getChildren();
+	    children.clear();
+	    children.setAll(text1, text2, text3);
+	});
     }
 
 }

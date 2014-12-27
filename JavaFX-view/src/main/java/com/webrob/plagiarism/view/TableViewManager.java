@@ -2,6 +2,7 @@ package com.webrob.plagiarism.view;
 
 import com.webrob.plagiarism.domain.PlagiarismDataForTableView;
 import com.webrob.plagiarism.domain.RowSummary;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 
 import java.util.List;
@@ -20,13 +21,16 @@ public class TableViewManager
 
     public void setDataForTableView(List<RowSummary> rowsSummary)
     {
-        for (RowSummary rowSummary: rowsSummary)
+        Platform.runLater(() ->
         {
+            plagiarisms.clear();
+            for (RowSummary rowSummary: rowsSummary)
+            {
 
-            PlagiarismDataForTableView dataForTableView = new PlagiarismDataForTableView(
-                            rowSummary.getFirstFile(), rowSummary.getSecondFile());
-            plagiarisms.add(dataForTableView);
-        }
-
+                PlagiarismDataForTableView dataForTableView = new PlagiarismDataForTableView(
+                                rowSummary.getFirstFile(), rowSummary.getSecondFile());
+                plagiarisms.add(dataForTableView);
+            }
+        });
     }
 }

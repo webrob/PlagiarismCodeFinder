@@ -4,6 +4,7 @@ import com.webrob.plagiarism.domain.PlagiarismChain;
 import com.webrob.plagiarism.domain.PlagiarizedLines;
 import com.webrob.plagiarism.domain.TokenizedLine;
 import com.webrob.plagiarism.utils.Matrix;
+import com.webrob.plagiarism.utils.Settings;
 
 import java.util.List;
 
@@ -78,7 +79,6 @@ public class PlagiarismFinder
 		markChainUnused(chain);
 	    }
 	}
-	int aa=0;
     }
 
     private void markChainUnused(PlagiarismChain chain)
@@ -100,7 +100,7 @@ public class PlagiarismFinder
 	}
 
 	gapLength++;
-	if (gapLength <= 2)
+	if (gapLength <= Settings.maxLineBias)
 	{
 	    if (areFreeLines(x + 1, y + 1))
 	    {

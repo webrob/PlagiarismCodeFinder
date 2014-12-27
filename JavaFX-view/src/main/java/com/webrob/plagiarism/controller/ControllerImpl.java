@@ -3,16 +3,14 @@ package com.webrob.plagiarism.controller;
 import com.webrob.plagiarism.MainWindowController;
 import com.webrob.plagiarism.domain.PlagiarismDetails;
 import com.webrob.plagiarism.domain.RowSummary;
-import com.webrob.plagiarism.messages.AbstractMessage;
-import com.webrob.plagiarism.messages.FindPlagiarismMessage;
-import com.webrob.plagiarism.messages.SelectedPlagiarismMessage;
-import com.webrob.plagiarism.messages.SetFilePathsMessage;
+import com.webrob.plagiarism.messages.*;
 import com.webrob.plagiarism.model.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 
 /**
@@ -21,8 +19,7 @@ import java.util.concurrent.SynchronousQueue;
 public class ControllerImpl implements Controller, PropertyChangeListener
 {
     private MainWindowController viewController;
-    private Plagiarism model;
-    private BlockingQueue<AbstractMessage> messageQueue = new SynchronousQueue<>();
+    private BlockingQueue<Message> messageQueue = new LinkedBlockingQueue<>(3);
 
     public void setViewController(MainWindowController viewController)
     {
@@ -31,14 +28,14 @@ public class ControllerImpl implements Controller, PropertyChangeListener
 
     public void setModel(Plagiarism model)
     {
-	this.model = model;
 	model.setMessageQueue(messageQueue);
 	model.addPropertyChangeListener(this);
     }
 
-    protected void sendMessage(AbstractMessage message)
+    protected void sendMessage(Message message)
     {
-	messageQueue.offer(message);
+	 messageQueue.offer(message);
+
     }
 
     public void findPlagiarism()
@@ -58,6 +55,19 @@ public class ControllerImpl implements Controller, PropertyChangeListener
         SelectedPlagiarismMessage message = new SelectedPlagiarismMessage(selectedIndex);
         sendMessage(message);
     }
+
+    @Override public void setMaxLineGapValue(int value)
+    {
+        SetMaxLineGapValueMessage message = new SetMaxLineGapValueMessage(value);
+        sendMessage(message);
+    }
+
+    @Override public void setMinChainLengthValue(int value)
+    {
+        SetMinChainLengthValueMessage message = new SetMinChainLengthValueMessage(value);
+        sendMessage(message);
+    }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt)
