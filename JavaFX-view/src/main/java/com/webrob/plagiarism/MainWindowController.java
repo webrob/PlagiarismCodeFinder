@@ -13,10 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.text.TextFlow;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -31,7 +28,7 @@ import java.util.ResourceBundle;
  */
 public class MainWindowController implements Initializable
 {
-    @FXML private Label directoryPathLabel;
+    @FXML private TextField directoryPathTextField;
     @FXML private Label minChainLengthLabel;
     @FXML private ScrollBar minChainLengthScrollBar;
     @FXML private Label maxLineGapLabel;
@@ -73,7 +70,7 @@ public class MainWindowController implements Initializable
 			    }
 			});
 
-	updateDirectoryPathLabel();
+	updateDirectoryPathLabel(DirectoryPath.getPath());
 
 	minChainLengthScrollBar.setValue(Settings.minChainLength);
 	setMinChainLengthLabel(Settings.minChainLength);
@@ -112,10 +109,9 @@ public class MainWindowController implements Initializable
 	label.setText(s);
     }
 
-    private void updateDirectoryPathLabel()
+    private void updateDirectoryPathLabel(String directoryPath)
     {
-	directoryPath = DirectoryPath.getPath();
-	directoryPathLabel.setText(DirectoryPath.getPath());
+	directoryPathTextField.setText(directoryPath);
     }
 
     private String selectFilePathFromFileChooser()
@@ -127,8 +123,7 @@ public class MainWindowController implements Initializable
 	if (selectedDirectory != null)
 	{
 	    directoryPath = selectedDirectory.getAbsolutePath();
-	    DirectoryPath.setPath(directoryPath);
-	    updateDirectoryPathLabel();
+	    updateDirectoryPathLabel(directoryPath);
 	}
 	return directoryPath;
     }
@@ -143,8 +138,17 @@ public class MainWindowController implements Initializable
     @FXML
     private void startDetectionPressed()
     {
+        clearData();
+        DirectoryPath.setPath(directoryPath);
 	controller.setDirectoryPath(directoryPath);
 	controller.findPlagiarism();
+    }
+
+    private void clearData()
+    {
+        firstFileTextFlow.getChildren().clear();
+        secondFileTextFlow.getChildren().clear();
+        plagiarisms.clear();
     }
 
     public void setController(Controller controller)
