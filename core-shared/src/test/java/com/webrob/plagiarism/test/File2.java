@@ -7,7 +7,10 @@ import com.webrob.plagiarism.model.Plagiarism;
  */
 public class File2
 {
-    private double testName = 0;
+    private Plagiarism testName;
+    private Boolean name1;
+    private Boolean name2;
+    private Boolean name3;
 
     public void fun(Plagiarism plagiarism)
     {
