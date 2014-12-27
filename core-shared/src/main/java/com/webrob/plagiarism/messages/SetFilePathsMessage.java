@@ -18,9 +18,4 @@ public class SetFilePathsMessage implements Message
     {
 	model.setFilePaths(directoryPath);
     }
-    public String getDirectoryPath()
-    {
-        return directoryPath;
-    }
-
 }

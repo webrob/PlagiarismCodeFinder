@@ -111,6 +111,7 @@ public class MainWindowController implements Initializable
 
     private void updateDirectoryPathLabel(String directoryPath)
     {
+        this.directoryPath = directoryPath;
 	directoryPathTextField.setText(directoryPath);
     }
 
