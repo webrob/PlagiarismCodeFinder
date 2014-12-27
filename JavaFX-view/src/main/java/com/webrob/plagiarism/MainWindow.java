@@ -1,5 +1,8 @@
 package com.webrob.plagiarism;
 
+import com.webrob.plagiarism.controller.Controller;
+import com.webrob.plagiarism.controller.ControllerImpl;
+import com.webrob.plagiarism.model.Plagiarism;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,8 +20,20 @@ public class MainWindow extends Application
     {
 	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainWindow.fxml"));
 	Parent root = loader.load();
-	MainWindowController controller = loader.getController();
-	controller.setStage(stage);
+
+	Plagiarism plagiarism = new Plagiarism();
+	Controller controller = new ControllerImpl();
+
+	MainWindowController mainWindowController = loader.getController();
+	mainWindowController.setStage(stage);
+	mainWindowController.setController(controller);
+
+	controller.setViewController(mainWindowController);
+	controller.setModel(plagiarism);
+
+	Thread thread = new Thread(plagiarism);
+	thread.setDaemon(true);
+	thread.start();
 
 	Scene scene = new Scene(root);
 	stage.setScene(scene);
