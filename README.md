@@ -1,3 +1,3 @@
 # PlagiarismCodeFinder
 
-JavaFX
+Gradle, JavaFX
