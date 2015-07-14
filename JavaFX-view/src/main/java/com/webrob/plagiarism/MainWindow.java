@@ -14,10 +14,15 @@ import javafx.stage.Stage;
  */
 public class MainWindow extends Application
 {
+    public static void main(String[] args)
+    {
+	launch(args);
+    }
 
     @Override
     public void start(Stage stage) throws Exception
     {
+
 	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainWindow.fxml"));
 	Parent root = loader.load();
 
@@ -38,11 +43,6 @@ public class MainWindow extends Application
 	Scene scene = new Scene(root);
 	stage.setScene(scene);
 	stage.show();
-    }
-
-    public static void main(String[] args)
-    {
-	launch(args);
     }
 
 }

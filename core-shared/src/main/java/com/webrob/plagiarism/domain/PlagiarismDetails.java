@@ -10,8 +10,6 @@ import java.io.FileNotFoundException;
  */
 public class PlagiarismDetails
 {
-
-
     private String firstFileText;
     private String secondFileText;
     private int firstFileStartPlagiarismChar;

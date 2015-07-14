@@ -28,6 +28,9 @@ public class Tokenization
 	String[] originalLines = splitToSimpleLines(originalText);
 
 	String simpleText = getTokenizedText();
+	System.out.println(simpleText);
+	System.out.println("nowy");
+
 	String[] simpleLines = splitToSimpleLines(simpleText);
 
 	int position = 0;
@@ -59,6 +62,7 @@ public class Tokenization
 	    while (true)
 	    {
 		LexerToken token = lexer.yylex();
+		String text = lexer.yytext();
 		if (token == null)
 		{
 		    break;

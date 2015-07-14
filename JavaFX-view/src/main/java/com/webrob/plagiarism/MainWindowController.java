@@ -133,7 +133,6 @@ public class MainWindowController implements Initializable
     private void chooseDirectoryPressed()
     {
 	directoryPath = selectFilePathFromFileChooser();
-	System.out.println(directoryPath);
     }
 
     @FXML
