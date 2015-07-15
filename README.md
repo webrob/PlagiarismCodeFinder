@@ -11,3 +11,5 @@ It uses the following technologies:
 </ul>
 
 <a href="http://youtu.be/Em7BMLWioHQ">Here</a> you can see the video showing a basic usage.
+
+Read documentation_PL file to get more info.
